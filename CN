@@ -1,0 +1,209 @@
+## API 开发文档
+
+### 1. 设置回调URL
+#### 描述
+通过Telegram设置回调URL，并返回绑定该地址的用户信息。
+
+#### 请求
+- **URL**: `/api/setCallbackUrl`
+- **方法**: POST
+- **请求参数**:
+  - `url` (string): 回调URL
+
+#### 请求示例
+```json
+{
+  "url": "https://example.com/callback"
+}
+```
+
+#### 响应
+- **状态码**: 200 OK
+- **响应体**:
+  - `userId` (string): 用户ID
+  - `fingerprint` (string): 用户指纹
+  - `depositAddress` (string): 充值地址
+  - `withdrawalAddress` (string): 绑定的提现地址
+  - `parentUserId` (string): 上级用户ID
+  - `depositCount` (integer): 充值次数
+  - `betCount` (integer): 投注次数
+  - `agentAirdropTrxBalances` (object): 对应代理空投TRX余额，格式为 `{agentName: airdropTrxBalance}`
+
+#### 响应示例
+```json
+{
+  "userId": "123456",
+  "fingerprint": "unique_fingerprint",
+  "depositAddress": "TRX_deposit_address",
+  "withdrawalAddress": "TRX_withdrawal_address",
+  "parentUserId": "parent123",
+  "depositCount": 5,
+  "betCount": 10,
+  "agentAirdropTrxBalances": {
+    "andyAgency": 25
+  }
+}
+```
+
+### 2. 用户查询接口
+#### 描述
+查询并返回用户信息。
+
+#### 请求
+- **URL**: `/api/getUserInfo`
+- **方法**: GET
+- **请求参数**:
+  - `userId` (string): 用户ID
+
+#### 请求示例
+```
+/api/getUserInfo?userId=123456
+```
+
+#### 响应
+- **状态码**: 200 OK
+- **响应体**:
+  - `userId` (string): 用户ID
+  - `fingerprint` (string): 用户指纹
+  - `depositAddress` (string): 充值地址
+  - `withdrawalAddress` (string): 绑定的提现地址
+  - `parentUserId` (string): 上级用户ID
+  - `depositCount` (integer): 充值次数
+  - `betCount` (integer): 投注次数
+  - `agentAirdropTrxBalances` (object): 对应代理空投TRX余额，格式为 `{agentName: airdropTrxBalance}`
+
+#### 响应示例
+```json
+{
+  "userId": "123456",
+  "fingerprint": "unique_fingerprint",
+  "depositAddress": "TRX_deposit_address",
+  "withdrawalAddress": "TRX_withdrawal_address",
+  "parentUserId": "parent123",
+  "depositCount": 5,
+  "betCount": 10,
+  "agentAirdropTrxBalances": {
+    "andyAgency": 25
+  }
+}
+```
+
+### 3. 设置用户空投TRX余额
+#### 描述
+设置用户的空投TRX余额。
+
+#### 请求
+- **URL**: `/api/setAirdropTrxBalance`
+- **方法**: POST
+- **请求参数**:
+  - `userId` (string): 用户ID
+  - `agentName` (string): 代理名称
+  - `airdropTrxCount` (float): 空投TRX数量
+
+#### 请求示例
+```json
+{
+  "userId": "123456",
+  "agentName": "andyAgency",
+  "airdropTrxCount": 500.0
+}
+```
+
+#### 响应
+- **状态码**: 200 OK
+- **响应体**:
+  - `message` (string): 操作结果信息
+
+#### 响应示例
+```json
+{
+  "message": "Airdrop TRX balance set successfully."
+}
+```
+
+## 用户信息字段
+- `userId` (string): 用户ID
+- `fingerprint` (string): 用户指纹
+- `depositAddress` (string): 充值地址
+- `withdrawalAddress` (string): 绑定的提现地址
+- `parentUserId` (string): 上级用户ID
+- `depositCount` (integer): 充值次数
+- `betCount` (integer): 投注次数
+- `agentAirdropTrxBalances` (object): 对应代理空投TRX余额，格式为 `{agentName: airdropTrxBalance}`
+
+### API 请求和响应示例
+
+#### 1. 设置回调URL
+##### 请求
+```http
+POST /api/setCallbackUrl
+Content-Type: application/json
+
+{
+  "url": "https://example.com/callback"
+}
+```
+##### 响应
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "userId": "123456",
+  "fingerprint": "unique_fingerprint",
+  "depositAddress": "TRX_deposit_address",
+  "withdrawalAddress": "TRX_withdrawal_address",
+  "parentUserId": "parent123",
+  "depositCount": 5,
+  "betCount": 10,
+  "agentAirdropTrxBalances": {
+    "andyAgency": 25
+  }
+}
+```
+
+#### 2. 用户查询接口
+##### 请求
+```http
+GET /api/getUserInfo?userId=123456
+```
+##### 响应
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "userId": "123456",
+  "fingerprint": "unique_fingerprint",
+  "depositAddress": "TRX_deposit_address",
+  "withdrawalAddress": "TRX_withdrawal_address",
+  "parentUserId": "parent123",
+  "depositCount": 5,
+  "betCount": 10,
+  "agentAirdropTrxBalances": {
+    "andyAgency": 25
+  }
+}
+```
+
+#### 3. 设置用户空投TRX余额
+##### 请求
+```http
+POST /api/setAirdropTrxBalance
+Content-Type: application/json
+
+{
+  "userId": "123456",
+  "agentName": "andyAgency",
+  "airdropTrxCount": 500.0
+}
+```
+##### 响应
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "message": "Airdrop TRX balance set successfully."
+}
+```
